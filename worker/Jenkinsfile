@@ -17,13 +17,17 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Performing Unit Tests on worker app..'
-		sleep 5
+		dir('worker') {
+		    sh 'mvn clean test'
+		}
             }
         }
         stage('Deploy') {
             steps {
                 echo 'Packagin worker app..'
-		sleep 3
+		dir('worker') {
+		    sh 'mvn package'
+		}
             }
         }
     }
