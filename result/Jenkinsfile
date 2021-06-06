@@ -1,0 +1,37 @@
+pipeline {
+    agent any
+
+    tools {
+        nodejs 'NodeJS 16.2.0'
+    }
+
+    stages {
+        stage('Build') {
+	    when {
+		changeset "**/result/**"
+	    }
+            steps {
+                echo 'Building/compiling worker app..'
+                dir('result') {
+                    sh 'npm install && npm ls'
+                }
+            }
+        }
+        stage('Test') {
+	    when {
+		changeset "**/result/**"
+	    }
+            steps {
+                echo 'Performing Unit Tests on worker app..'
+                dir('result') {
+                    sh 'npm install && npm test'
+                }
+            }
+        }
+    }
+    post {
+        always {
+            echo 'Build pipeline for worker is complete!'
+        }
+    }
+}
