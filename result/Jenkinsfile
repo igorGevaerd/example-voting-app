@@ -1,8 +1,7 @@
 pipeline {
-    agent any
 
-    tools {
-        nodejs 'NodeJS 16.2.0'
+    agent {
+        docker { image 'node:8.16.0-alpine' }
     }
 
     stages {
